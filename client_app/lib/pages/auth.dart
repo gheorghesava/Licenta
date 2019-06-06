@@ -100,7 +100,6 @@ class _AuthPageState extends State<AuthPage> {
               _authMode == AuthMode.LoginMode ? 'Login Page' : 'Signup Page')),
       body: Center(
           child: Container(
-              decoration: BoxDecoration(color: Colors.blue[100]),
               padding: EdgeInsets.all(50.0),
               child: Center(
                   child: SingleChildScrollView(

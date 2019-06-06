@@ -9,8 +9,8 @@ class Clerk(
         email:String,
         password:String,
         username: String,
-        phone_number: String,
+        phoneNumber: String,
         @ManyToOne
         @JoinColumn(name = "restaurant_id")
-        val restaurant:Restaurant): User(email,password,username,phone_number) {
+        val restaurant:Restaurant): User(email,password,username,phoneNumber) {
 }

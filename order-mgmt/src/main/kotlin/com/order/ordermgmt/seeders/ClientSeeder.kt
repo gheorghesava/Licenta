@@ -16,7 +16,7 @@ class ClientSeeder(val clientRepository: ClientRepository) {
                     "secret",
                     faker.name().username(),
                     faker.phoneNumber().cellPhone(),
-                    faker.number().randomDouble(2,10,1000)
+                    faker.number().numberBetween(50,1000)
             )
         })
     }

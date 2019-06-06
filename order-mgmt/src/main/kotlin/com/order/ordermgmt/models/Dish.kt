@@ -9,7 +9,7 @@ class Dish(
         val title:String,
         val description: String,
         val quantity:Int,
-        val price: Double,
+        val price: Int,
         val cookTime: Int,
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name="dish_type_id")

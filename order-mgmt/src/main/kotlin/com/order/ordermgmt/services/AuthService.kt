@@ -7,4 +7,5 @@ import com.order.ordermgmt.models.Client
 interface AuthService {
     fun clientLogin(loginData: LoginData):Client?
     fun clientRegister(registerData: RegisterData):Client?
+    fun clientInfo(id:Long):Client?
 }

@@ -22,5 +22,19 @@ mixin UserModel on ConnectedModel {
     return true;
   }
 
+  void logout(){
+    authenticatedUser=null;
+    notifyListeners();
+  }
+
+  void updateUserInfo() async {
+    http.Response response= await http.get(baseUrl+'/client/${authenticatedUser.id}');
+    if (response.statusCode != 200 && response.statusCode != 201) return;
+    authenticatedUser = User.fromMap(json.decode(response.body));
+    notifyListeners();
+  }
+
   User get authenticatedUser => super.authenticatedUser;
+
+  
 }

@@ -6,7 +6,7 @@ class Dish{
   String title;
   String description;
   int quantity;
-  double price;
+  int price;
   int cookTime;
   DishType dishType;
 

@@ -20,9 +20,9 @@ class AuthController(val authServiceImpl: AuthServiceImpl) {
         return authServiceImpl.clientRegister(registerData)
     }
 
-    @GetMapping("/client/me")
-    fun clientDetails(){
-        println("client register")
+    @GetMapping("/client/{id}")
+    fun clientDetails(@PathVariable(value = "id") id:Long):Client?{
+        return authServiceImpl.clientInfo(id)
     }
 
     @PostMapping("/worker/login")

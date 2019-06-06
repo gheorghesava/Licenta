@@ -9,9 +9,9 @@ class Client(
         email:String,
         password:String,
         username: String,
-        phone_number: String,
-        var sold: Double
-        ): User(email,password,username,phone_number)
+        phoneNumber: String,
+        var sold: Int
+        ): User(email,password,username,phoneNumber)
 {
         @ManyToMany(mappedBy = "client")
         @JsonIgnoreProperties("client")

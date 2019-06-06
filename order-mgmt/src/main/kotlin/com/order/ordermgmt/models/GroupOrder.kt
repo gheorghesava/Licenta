@@ -9,7 +9,7 @@ class GroupOrder(var orderStatus:OrderStatus):BaseEntity(){
     @JsonIgnoreProperties("groupOrder")
     val clientOrderList= mutableListOf<ClientOrder>()
 
-    var totalPrice:Double=0.0
+    var totalPrice:Int=0
 
     fun addClientOrder(clientOrder: ClientOrder){
         clientOrderList.add(clientOrder)

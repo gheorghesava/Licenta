@@ -1,13 +1,9 @@
 import 'package:client_app/models/restaurant.dart';
-import 'package:client_app/pages/menu.dart';
 import 'package:client_app/scoped_models/main_model.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class HomePage extends StatefulWidget {
-  final MainModel model;
-  HomePage(this.model);
-
   @override
   State<StatefulWidget> createState() {
     return _HomePageState();
@@ -16,17 +12,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
-  void initState() {
-    widget.model.fetchRestaurants();
+  void initState() { 
     super.initState();
+    // ScopedModel.of<MainModel>(context, rebuildOnChange: true).fetchRestaurants();
   }
-
-  Widget _buildRestaurantCard(Restaurant restaurant) {
+  Widget _buildRestaurantCard(Restaurant restaurant, MainModel model) {
     return Card(
       child: Column(
         children: <Widget>[
-          Image(
-            image: AssetImage('assets/logo.png'),
+          Hero(
+            tag: restaurant.id,
+            child: Image(
+              image: AssetImage('assets/logo.png'),
+              height: 150,
+              width: 150,
+            ),
           ),
           Text(
             restaurant.name,
@@ -45,7 +45,11 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               OutlineButton(
                 child: Text("Restaurant info"),
-                onPressed: () {},
+                onPressed: () {
+                  model.selectRestaurant(restaurant.id);
+                  Navigator.pushNamed(context, '/restaurant')
+                      .then((_) => model.selectRestaurant(null));
+                },
               ),
               SizedBox(
                 width: 30.0,
@@ -53,8 +57,10 @@ class _HomePageState extends State<HomePage> {
               OutlineButton(
                 child: Text("Menu"),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (BuildContext context) => MenuPage(restaurant)));
+                  model.selectRestaurant(restaurant.id);
+                  print(model.selectedRestaurant.name);
+                  Navigator.pushNamed(context, '/menu')
+                      .then((_) => model.selectRestaurant(null));
                 },
               ),
             ],
@@ -73,14 +79,46 @@ class _HomePageState extends State<HomePage> {
         builder: (BuildContext context, Widget child, MainModel model) {
       return Scaffold(
         drawer: Drawer(
-          child: Column(children: <Widget>[
-            SizedBox(height: 50,),
-            Text(model.authenticatedUser.username),
-            SizedBox(height: 20,),
-            Text(model.authenticatedUser.email),
-            SizedBox(height:20),
-            Text("Available sold: "+ model.authenticatedUser.sold.toString())
-          ],),),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 50,
+              ),
+              Hero(
+                tag: 'profile',
+                child: Image(
+                  image: AssetImage('assets/user.png'),
+                  height: 130,
+                  width: 130,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ListTile(
+                leading: Icon(Icons.account_circle),
+                title: Text("Your profile"),
+                onTap: () => Navigator.pushNamed(context, '/profile'),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ListTile(
+                leading: Icon(Icons.history),
+                title: Text("Order history"),
+                onTap: () => Navigator.pushNamed(context, '/history'),
+              ),
+              SizedBox(height: 10),
+              ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text("Logout"),
+                  onTap: () {
+                    model.logout();
+                    Navigator.pushReplacementNamed(context, '/');
+                  })
+            ],
+          ),
+        ),
         appBar: AppBar(
           title: Text("Home page"),
         ),
@@ -91,7 +129,7 @@ class _HomePageState extends State<HomePage> {
               scrollDirection: Axis.vertical,
               itemCount: model.restaurantList.length,
               itemBuilder: (BuildContext context, int index) {
-                return _buildRestaurantCard(model.restaurantList[index]);
+                return _buildRestaurantCard(model.restaurantList[index], model);
               },
             ),
           ),

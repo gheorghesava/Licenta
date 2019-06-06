@@ -1,15 +1,10 @@
-import 'package:client_app/models/client_order.dart';
-import 'package:client_app/models/restaurant.dart';
 import 'package:client_app/scoped_models/main_model.dart';
 import 'package:client_app/widgets/dish_list.dart';
+import 'package:client_app/widgets/ui_elements/order_price.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MenuPage extends StatefulWidget {
-  final Restaurant restaurant;
-
-  MenuPage(this.restaurant);
-
   @override
   State<StatefulWidget> createState() {
     return _MenuPageState();
@@ -17,40 +12,48 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  List<Widget> _buildBarTabs() {
-    return widget.restaurant.dishTypeList
+  List<Widget> _buildBarTabs(MainModel model) {
+    return model.selectedRestaurant.dishTypeList
         .map((dishType) => Tab(text: dishType.name))
         .toList();
   }
 
-  List<Widget> _buildBarTabViews() {
-    return widget.restaurant.dishTypeList
+  List<Widget> _buildBarTabViews(MainModel model) {
+    return model.selectedRestaurant.dishTypeList
         .map((dishType) =>
-            DishList(widget.restaurant.getDishListByType(dishType)))
+            DishList(model.selectedRestaurant.getDishListByType(dishType)))
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: widget.restaurant.dishTypeList.length,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(widget.restaurant.name),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.shopping_basket),
-                onPressed: () => Navigator.pushNamed(context, '/order'),
-              )
-            ],
-            bottom: TabBar(
-              isScrollable: true,
-              tabs: _buildBarTabs(),
+    return ScopedModelDescendant<MainModel>(
+        builder: (BuildContext context, Widget child, MainModel model) {
+      return DefaultTabController(
+          length: model.selectedRestaurant.dishTypeList.length,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(model.selectedRestaurant.name),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.shopping_basket),
+                  onPressed: () => model.clientOrder != null
+                      ? Navigator.pushNamed(context, '/neworder')
+                      : () {},
+                )
+              ],
+              bottom: TabBar(
+                isScrollable: true,
+                tabs: _buildBarTabs(model),
+              ),
             ),
-          ),
-          body: TabBarView(
-            children: _buildBarTabViews(),
-          ),
-        ));
+            body: TabBarView(
+              children: _buildBarTabViews(model),
+            ),
+            bottomSheet: OrderPrice(model.clientOrder != null
+                ? model.clientOrder.totalPrice.toString()
+                : '0'),
+          ));
+    });
   }
 }

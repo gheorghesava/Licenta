@@ -10,6 +10,11 @@ import org.springframework.stereotype.Service
 class AuthServiceImpl(
         private val clientRepository: ClientRepository
 ):AuthService {
+
+    override fun clientInfo(id:Long): Client? {
+        return clientRepository.findById(id).get() //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun clientLogin(loginData: LoginData): Client? {
         var client:Client?=null
         clientRepository.findAll().forEach {
@@ -26,6 +31,6 @@ class AuthServiceImpl(
                 return null
             }
         }
-        return clientRepository.save(Client(registerData.email,registerData.password,registerData.username,registerData.phoneNumber,1500.0))
+        return clientRepository.save(Client(registerData.email,registerData.password,registerData.username,registerData.phoneNumber,1500))
     }
 }

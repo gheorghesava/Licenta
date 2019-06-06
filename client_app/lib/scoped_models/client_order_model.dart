@@ -9,9 +9,8 @@ import 'package:client_app/scoped_models/connected_model.dart';
 mixin ClientOrderModel on ConnectedModel{
   void addDishToOrder(Dish dish) {
     if(clientOrder==null){
-      clientOrder=ClientOrder(client: authenticatedUser);
+      clientOrder=ClientOrder(clientId: authenticatedUser.id, restaurantId: selectedRestaurant.id,itemList: []);
     }
-    print(dish.title);
     clientOrder.addDish(dish);
     notifyListeners();
   } 
@@ -28,7 +27,8 @@ mixin ClientOrderModel on ConnectedModel{
       headers: {'Content-Type': 'application/json'}
     );
     if (response.statusCode != 200 && response.statusCode != 201) return false;
-    clientOrder=ClientOrder(client: authenticatedUser);
+    print(json.decode(response.body));
+    clientOrder=null;
     notifyListeners();
     return true;
   }
@@ -36,4 +36,12 @@ mixin ClientOrderModel on ConnectedModel{
   bool isOrderInitiated() => clientOrder!=null;
 
   ClientOrder get clientOrder => super.clientOrder;
+
+  List<ClientOrder> get ongoingOrders {
+    return authenticatedUser.orderList.where((ClientOrder order)=> order.status!='COMPLETED').toList();
+  }
+
+  List<ClientOrder> get completedOrders {
+    return authenticatedUser.orderList.where((ClientOrder order)=> order.status=='COMPLETED').toList();
+  }
 }

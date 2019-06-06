@@ -27,8 +27,8 @@ class RestaurantSeeder(
                     faker.name().username() + "@gmail.com",
                     Address(
                             faker.address().fullAddress(),
-                            faker.number().randomDouble(6, 0, 100),
-                            faker.number().randomDouble(6, 0, 100)
+                            faker.number().randomDouble(6, -90, 90),
+                            faker.number().randomDouble(6, -180, 180)
                     )
             )
         })

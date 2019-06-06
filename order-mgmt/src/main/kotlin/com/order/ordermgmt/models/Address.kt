@@ -6,4 +6,4 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity
-class Address(val address: String, lat: Double, lng: Double):BaseEntity()
+class Address(val address: String,val lat: Double,val lng: Double):BaseEntity()

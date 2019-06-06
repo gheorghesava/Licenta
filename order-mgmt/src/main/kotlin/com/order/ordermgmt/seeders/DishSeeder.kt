@@ -21,7 +21,7 @@ class DishSeeder(
                     faker.food().spice()+" "+faker.food().ingredient(),
                     faker.lorem().sentence(),
                     faker.number().numberBetween(10, 2000),
-                    faker.number().randomDouble(2, 0, 100),
+                    faker.number().numberBetween(1,100),
                     faker.number().numberBetween(60, 1800),
                     dishTypeRepository.findAll().shuffled().first(),
                     restaurantRepository.findAll().shuffled().first()

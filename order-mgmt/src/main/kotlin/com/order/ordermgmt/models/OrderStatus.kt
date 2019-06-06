@@ -4,5 +4,4 @@ enum class OrderStatus {
     OPEN,
     PROCESSING,
     COMPLETED,
-    CLOSED
 }

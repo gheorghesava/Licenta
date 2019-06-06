@@ -1,18 +1,24 @@
 package com.order.ordermgmt.models
 
-import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonManagedReference
+import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.*
 
 @Entity
 class ClientOrder(
         @ManyToOne
         @JsonIgnore
-        val client:Client
+        val client:Client,
+        val type: OrderType,
+        var status: OrderStatus,
+        val createdAt: LocalDateTime,
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name="restaurant_id")
+        val restaurant: Restaurant
 ):BaseEntity() {
-    var totalPrice:Double=0.0
+    var totalPrice:Int=0
     @ManyToMany()
     @JoinTable(name="client_order_dish",
             joinColumns = [(JoinColumn(name="order_id", referencedColumnName = "id"))],

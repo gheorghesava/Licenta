@@ -8,6 +8,7 @@ mixin RestaurantModel on ConnectedModel{
   Future<bool> fetchRestaurants() async{
     http.Response response=await http.get(baseUrl+'/client/restaurants/all');
     if (response.statusCode != 200 && response.statusCode != 201) return false;
+    print(json.decode(response.body));
     for(Map<String,dynamic> restaurantMap in json.decode(response.body)){
       restaurantList.add(Restaurant.fromMap(restaurantMap));
     }
@@ -15,4 +16,13 @@ mixin RestaurantModel on ConnectedModel{
     return true;
   }
   List<Restaurant> get restaurantList => super.restaurantList;
+
+  Restaurant findRestaurantById(int id){
+    for(Restaurant res in restaurantList){
+      if(res.id==id){
+        return res;
+      }
+    }
+    return null;
+  }
 }
