@@ -8,8 +8,15 @@ import org.springframework.stereotype.Component
 @Component
 class DishTypeSeeder(val dishTypeRepository: DishTypeRepository) {
     fun seed(){
-        val faker= Faker()
         dishTypeRepository.deleteAll()
-        dishTypeRepository.saveAll((1..10).map{DishType(faker.food().ingredient())})
+        dishTypeRepository.save(DishType("Pizza"))
+        dishTypeRepository.save(DishType("Pasta"))
+        dishTypeRepository.save(DishType("Salad"))
+        dishTypeRepository.save(DishType("Stew"))
+        dishTypeRepository.save(DishType("Cakes"))
+        dishTypeRepository.save(DishType("BBQ"))
+        dishTypeRepository.save(DishType("Burgers"))
+
+
     }
 }

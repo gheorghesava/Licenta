@@ -20,11 +20,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  MainModel _model=MainModel();
+
+  @override
+  void initState() { 
+    _model.fetchRestaurants();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    MainModel model=MainModel();
     return ScopedModel(
-      model: model,
+      model: _model,
       child: MaterialApp(
         title: 'OrderMgmgt',
         theme: ThemeData(

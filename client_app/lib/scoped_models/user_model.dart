@@ -16,7 +16,8 @@ mixin UserModel on ConnectedModel {
     http.Response response = await http.post(authPath,
         body: json.encode(authData),
         headers: {'Content-Type': 'application/json'});
-    if (response.statusCode != 200 && response.statusCode != 201) return false;
+    print(response.statusCode);
+    if (response.statusCode != 200) return false;
     print(json.decode(response.body));
     authenticatedUser = User.fromMap(json.decode(response.body));
     return true;

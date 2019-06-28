@@ -20,4 +20,8 @@ class Restaurant(
         @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.EAGER, mappedBy = "restaurant")
         @JsonIgnore
         val orderList= mutableListOf<Dish>()
+
+        @OneToMany(cascade = [(CascadeType.ALL)])
+        @JsonIgnore
+        val stationList= mutableListOf<Station>()
 }

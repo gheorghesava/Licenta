@@ -5,13 +5,15 @@ import com.order.ordermgmt.models.Dish
 import com.order.ordermgmt.repositories.DishRepository
 import com.order.ordermgmt.repositories.DishTypeRepository
 import com.order.ordermgmt.repositories.RestaurantRepository
+import com.order.ordermgmt.repositories.StationRepository
 import org.springframework.stereotype.Component
 
 @Component
 class DishSeeder(
         val dishRepository: DishRepository,
         val dishTypeRepository: DishTypeRepository,
-        val restaurantRepository: RestaurantRepository
+        val restaurantRepository: RestaurantRepository,
+        val stationRepository: StationRepository
                  ) {
     fun seed(){
         val faker= Faker()
@@ -24,7 +26,8 @@ class DishSeeder(
                     faker.number().numberBetween(1,100),
                     faker.number().numberBetween(60, 1800),
                     dishTypeRepository.findAll().shuffled().first(),
-                    restaurantRepository.findAll().shuffled().first()
+                    restaurantRepository.findAll().shuffled().first(),
+                    stationRepository.findAll().shuffled().first()
             )
         }.toMutableList())
     }

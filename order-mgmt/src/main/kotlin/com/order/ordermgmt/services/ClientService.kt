@@ -6,6 +6,4 @@ import com.order.ordermgmt.repositories.ClientRepository
 import org.springframework.stereotype.Service
 
 interface ClientService {
-    fun getOrders()
-    fun placeOrder(clientOrderDto:ClientOrderDto):ClientOrder
 }

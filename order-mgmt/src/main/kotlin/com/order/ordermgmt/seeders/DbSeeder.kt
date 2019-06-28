@@ -10,8 +10,10 @@ class DbSeeder(
         val dishTypeSeeder: DishTypeSeeder,
         val dishSeeder: DishSeeder,
         val clientSeeder: ClientSeeder,
-        val clientOrderSeeder: ClientOrderSeeder) : CommandLineRunner {
+        val clientOrderSeeder: ClientOrderSeeder,
+        val stationSeeder: StationSeeder) : CommandLineRunner {
     override fun run(vararg p0: String?) {
+//        stationSeeder.seed()
 //        dishTypeSeeder.seed()
 //        restaurantSeeder.seed()
 //        dishSeeder.seed()

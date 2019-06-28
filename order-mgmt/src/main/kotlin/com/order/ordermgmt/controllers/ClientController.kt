@@ -7,7 +7,9 @@ import com.order.ordermgmt.repositories.ClientRepository
 import com.order.ordermgmt.repositories.DishTypeRepository
 import com.order.ordermgmt.repositories.RestaurantRepository
 import com.order.ordermgmt.services.ClientService
+import com.order.ordermgmt.services.OrderService
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -17,7 +19,8 @@ class ClientController(
         val dishTypeRepository: DishTypeRepository,
         val clientOrderRepository: ClientOrderRepository,
         val clientRepository: ClientRepository,
-        val clientService: ClientService) {
+        val clientService: ClientService,
+        val orderService: OrderService) {
 
     @GetMapping("/restaurants/all")
     fun getRestaurants():MutableIterable<Restaurant> = restaurantRepository.findAll()
@@ -29,7 +32,7 @@ class ClientController(
     fun getDishTypes():MutableIterable<DishType> = dishTypeRepository.findAll()
 
     @PostMapping("/order")
-    fun placeOrder(@RequestBody order: ClientOrderDto):ClientOrder = clientService.placeOrder(order)
+    fun placeOrder(@RequestBody order: ClientOrderDto):ClientOrder = orderService.placeOrder(order)
 
     @GetMapping("/{id}")
     fun getOrders(@PathVariable(value="id") id: Long):Client = clientRepository.findById(id).get()

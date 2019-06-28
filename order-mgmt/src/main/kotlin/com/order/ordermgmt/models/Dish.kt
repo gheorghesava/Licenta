@@ -16,7 +16,10 @@ class Dish(
         val dishType:DishType,
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "restaurant_id")
-        val restaurant:Restaurant
+        val restaurant:Restaurant,
+        @ManyToOne
+        @JoinColumn(name = "station_id")
+        val station:Station
     ):BaseEntity(){
     @ManyToMany(mappedBy = "dishList")
     @JsonIgnore

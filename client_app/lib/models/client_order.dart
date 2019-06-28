@@ -1,6 +1,4 @@
 import 'package:client_app/models/dish.dart';
-import 'package:client_app/models/restaurant.dart';
-import 'package:client_app/models/user.dart';
 import 'package:flutter/material.dart';
 
 class ClientOrder {

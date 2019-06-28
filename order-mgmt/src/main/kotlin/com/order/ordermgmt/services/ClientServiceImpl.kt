@@ -17,24 +17,4 @@ class ClientServiceImpl(
         val clientRepository: ClientRepository,
         val dishRepository: DishRepository
 ):ClientService {
-    override fun placeOrder(clientOrderDto: ClientOrderDto): ClientOrder {
-        val client=clientRepository.findById(clientOrderDto.clientId).get()
-        val restaurant=restaurantRepository.findById(clientOrderDto.restaurantId).get()
-        val clientOrder= ClientOrder(
-                client = client,
-                type = OrderType.DINE_IN,
-                status = OrderStatus.OPEN,
-                createdAt = LocalDateTime.now(),
-                restaurant = restaurant)
-        clientOrderDto.orderItems.forEach {
-            clientOrder.addDish(dishRepository.findById(it).get())
-        }
-        return clientOrderRepository.save(clientOrder)
-    }
-
-    override fun getOrders() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-
 }
